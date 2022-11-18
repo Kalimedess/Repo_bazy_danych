@@ -1,0 +1,30 @@
+DELETE FROM postac WHERE data_ur='1970-04-20' OR data_ur='1960-09-10';
+ALTER TABLE postac DROP FOREIGN KEY postac_ibfk_1;
+ALTER TABLE walizka DROP FOREIGN KEY walizka_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_1;
+ALTER TABLE przetwory DROP FOREIGN KEY przetwory_ibfk_2;
+ALTER TABLE postac MODIFY COLUMN id_postaci int;
+ALTER TABLE postac DROP PRIMARY KEY;
+
+ALTER TABLE postac ADD pesel char(11) first;
+UPDATE postac SET pesel='21354968351' + id_postaci;
+ALTER TABLE postac ADD PRIMARY KEY (pesel);
+
+ALTER TABLE postac MODIFY COLUMN rodzaj enum('wiking','ptak','kobieta','syrena');
+INSERT INTO postac(id_postaci,nazwa,rodzaj,data_ur,wiek) VALUES (9,'Gertruda Nieszczera','syrena','1960-10-10',200);
+UPDATE postac SET nazwa_statku='czarna drozda' WHERE nazwa LIKE '%a%';
+UPDATE statek SET max_ladownosc=max_ladownosc-(max_ladownosc*0.3) WHERE data_wodowania<'2000-01-01';
+ALTER TABLE postac ADD CHECK(wiek<1000);
+CREATE TABLE `Marynarz` (
+  `pesel` char(11) NOT NULL,
+  `id_postaci` int NOT NULL,
+  `nazwa` varchar(40) DEFAULT NULL,
+  `rodzaj` enum('wiking','ptak','kobieta','syrena') DEFAULT NULL,
+  `data_ur` date DEFAULT NULL,
+  `wiek` int unsigned DEFAULT NULL,
+  `funkcja` varchar(70) DEFAULT NULL,
+  `nazwa_statku` varchar(70) DEFAULT NULL,
+  PRIMARY KEY (`pesel`),
+  KEY `nazwa_statku` (`nazwa_statku`),
+  CONSTRAINT `Marynarz_chk_1` CHECK ((`wiek` < 1000))
+) 
