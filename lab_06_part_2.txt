@@ -1,0 +1,7 @@
+ZADANIE 4
+SELECT e1.nazwa, e2.nazwa FROM kreatura e1 INNER JOIN kreatura e2 ON (e1.idKreatury+5=e2.idKreatury);
+
+ZADANIE 5
+SELECT kreatura.rodzaj, AVG(zasob.waga*ekwipunek.ilosc) AS sredniaWagaZasobow FROM kreatura INNER JOIN ekwipunek ON (kreatura.idKreatury=ekwipunek.idKreatury) INNER JOIN zasob ON (ekwipunek.idZasobu=zasob.idZasobu) WHERE kreatura.rodzaj!='waz' OR
+kreatura.rodzaj!='malpa' GROUP BY kreatura.rodzaj HAVING SUM(ekwipunek.ilosc)<30;
+SELECT e1.nazwa, e1.rodzaj, e1.dataUr FROM kreatura e1, (SELECT MIN(dataUr) AS min, MAX(dataUr) AS max FROM kreatura GROUP BY rodzaj) e2 WHERE dataUr=min OR dataUr=max;
