@@ -1,0 +1,24 @@
+SELECT kreatura.rodzaj sum(zasob.waga*ekwipunek.ilosc)/COUNT(distinct ekwipunek.idKreatury) AS sredniaWagaZasobow FROM kreatura INNER JOIN ekwipunek ON (kreatura.idKreatury=ekwipunek.idKreatury) INNER JOIN zasob ON (ekwipunek.idZasobu=zasob.idZasobu) WHERE kreatura.rodzaj!='waz' OR
+kreatura.rodzaj!='malpa' GROUP BY kreatura.rodzaj HAVING SUM(ekwipunek.ilosc)<30;
+
+LAB_07
+
+ZAD 1
+CREATE TABLE kreatura SELECT * FROM wikingowie.kreatura;
+CREATE TABLE uczestnicy SELECT * FROM wikingowie.uczestnicy;
+CREATE TABLE etapy_wyprawy SELECT * FROM wikingowie.etapy_wyprawy;
+CREATE TABLE sektor SELECT * FROM wikingowie.sektor;
+CREATE TABLE wyprawa SELECT * FROM wikingowie.wyprawa;
+
+SELECT kreatura.nazwa FROM kreatura LEFT JOIN uczestnicy ON (kreatura.idKreatury=uczestnicy.id_uczestnika) WHERE uczestnicy.id_uczestnika IS NULL;
+
+SELECT wyprawa.nazwa, sum(ekwipunek.ilosc) FROM wyprawa INNER JOIN uczestnicy ON (wyprawa.id_wyprawy=uczestnicy.id_wyprawy) INNER JOIN kreatura ON (uczestnicy.id_uczestnika=kreatura.idKreatury) INNER JOIN ekwipunek ON (kreatura.idKreatury=ekwipunek.idKreatury) GROUP BY wyprawa.id_wyprawy;
+LUB
+SELECT wyprawa.nazwa, sum(ekwipunek.ilosc) FROM wyprawa INNER JOIN uczestnicy ON (wyprawa.id_wyprawy=uczestnicy.id_wyprawy) INNER JOIN ekwipunek ON (uczestnicy.id_uczestnika=ekwipunek.idKreatury) GROUP BY wyprawa.id_wyprawy;
+
+ZAD 2
+SELECT wyprawa.nazwa, GROUP_CONCAT(kreatura.nazwa), COUNT(uczestnicy.id_uczestnika) FROM wyprawa INNER JOIN uczestnicy ON(wyprawa.id_wyprawy=uczestnicy.id_wyprawy) INNER JOIN kreatura ON (uczestnicy.id_uczestnika=kreatura.idKreatury) GROUP BY wyprawa.nazwa;
+
+SELECT etapy_wyprawy.idEtapu, sektor.nazwa FROM (SELECT * FROM etapy_wyprawy ORDER BY etapy_wyprawy.kolejnosc) etapy_wyprawy INNER JOIN sektor ON (etapy_wyprawy.sektor=sektor.id_sektora) INNER JOIN wyprawa ON (etapy_wyprawy.idWyprawy=wyprawa.id_wyprawy) ORDER BY wyprawa.data_rozpoczecia;
+*sprawdzenie*
+SELECT w.nazwa, s.nazwa, ew.kolejnosc, k.nazwa as kierownik from wyprawa w join kreatura k on w.kierownik=k.idKreatury join etapy_wyprawy ew on ew.idWyprawy=w.id_wyprawy join sektor s on s.id_sektora=ew.sektor order by w.data_rozpoczecia asc, ew.kolejnosc desc;
