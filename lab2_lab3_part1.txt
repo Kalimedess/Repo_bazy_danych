@@ -1,0 +1,13 @@
+1.SELECT imie, nazwisko, dzial.nazwa FROM pracownik INNER JOIN dzial ON (pracownik.dzial=dzial.id_dzialu);
+2.SELECT nazwa_towaru, nazwa_kategori, ilosc FROM towar INNER JOIN kategoria ON (towar.kategoria=kategoria.id_kategori) INNER JOIN stan_magazynowy ON (towar.id_towaru=stan_magazynowy.towar);
+4.SELECT * FROM zamowienie WHERE status_zamowienia=6;
+5.SELECT klient.* FROM klient INNER JOIN adres_klienta ON (klient.id_klienta=adres_klienta.klient) INNER JOIN typ_adresu ON (adres_klienta.typ_adresu=typ_adresu.id_typu) WHERE adres_klienta.miejscowosc='Olsztyn' AND typ_adresu.nazwa='podstawowy';
+6.SELECT id_jednostki, jm FROM jednostka_miary LEFT JOIN stan_magazynowy ON (jednostka_miary.id_jednostki=stan_magazynowy.jm) WHERE jm IS NOT NULL;
+7.SELECT zamowienie.numer_zamowienia, towar.nazwa_towaru, pozycja_zamowienia.ilosc, pozycja_zamowienia.cena FROM zamowienie INNER JOIN pozycja_zamowienia ON zamowienie.numer_zamowienia=pozycja_zamowienia.zamowienie INNER JOIN towar ON pozycja_zamowienia.towar=towar.id_towaru WHERE year(zamowienie.data_zamowienia)=2018;
+8.SELECT pozycja_zamowienia.* FROM pozycja_zamowienia INNER JOIN (SELECT id_zamowienia FROM zamowienie ORDER BY data_zamowienia ASC LIMIT 5) AS t ON t.id_zamowienia=pozycja_zamowienia.zamowienie;
+9.SELECT zamowienie.* FROM zamowienie INNER JOIN status_zamowienia ON zamowienie.status_zamowienia=status_zamowienia.id_statusu_zamowienia WHERE nazwa_statusu_zamowienia!='zrealizowane';
+10.SELECT * FROM adres_klienta WHERE kod NOT REGEXP"[0-9]{2}-[0-9]{3}";
+
+LAB 8
+3.SELECT dzial.nazwa, COUNT(pracownik.id_pracownika) FROM dzial INNER JOIN pracownik ON dzial.id_dzialu=pracownik.dzial GROUP BY dzial.nazwa;
+4.SELECT nazwa_kategori, COUNT(towar.id_towaru) FROM kategoria INNER JOIN towar ON kategoria.id_kategori=towar.kategoria GROUP BY id_kategori;
