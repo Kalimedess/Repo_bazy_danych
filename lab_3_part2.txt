@@ -1,0 +1,8 @@
+LAB 3
+5. SELECT kategoria.nazwa_kategori, GROUP_CONCAT(towar.nazwa_towaru) FROM kategoria INNER JOIN towar ON kategoria.id_kategori=towar.kategoria GROUP BY id_kategori;
+6. SELECT Round(AVG(pensja),'2') FROM pracownik;
+7. SELECT AVG(pensja) FROM pracownik where YEAR(CURDATE())-YEAR(data_zatrudnienia)>=5;
+8. SELECT nazwa_towaru,SUM(ilosc) FROM towar inner join  pozycja_zamowienia  on towar.id_towaru=pozycja_zamowienia.towar group by id_towaru order by SUM(ilosc) DESC LIMIT 10;
+9. SELECT numer_zamowienia,SUM(ilosc*cena) FROM zamowienie inner join pozycja_zamowienia on zamowienie.id_zamowienia=pozycja_zamowienia.zamowienie where YEAR(data_zamowienia)=2017 and MONTH(data_zamowienia) Between 1 and 3 group by id_zamowienia;
+10.SELECT imie, nazwisko, SUM(ilosc*cena) AS sum FROM pracownik INNER JOIN zamowienie ON pracownik.id_pracownika=zamowienie.pracownik_id_pracownika INNER JOIN pozycja_zamowienia ON zamowienie.id_zamowienia=pozycja_zamowienia.zamowienie
+GROUP BY pracownik.id_pracownika ORDER BY sum DESC;
